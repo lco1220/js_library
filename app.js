@@ -20,6 +20,11 @@ class Library {
     books.forEach((book) => Library.render(book));
   }
 
+  static addBook(book) {
+    var books = myLibrary;
+    books.push(book);
+  }
+
   static render(book) {
     const bookTable = document.querySelector('#bookList');
     const row = document.createElement('tr');
@@ -130,6 +135,7 @@ document.querySelector('#bookForm').addEventListener('submit',(e) => {
   } else {
     const book = new Book(title,author,genre,read);
 
+    Library.addBook(book);
     Library.render(book);
     Library.showAlertModal('Book Added', 'success');
     Library.clearFields();
