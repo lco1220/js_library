@@ -81,6 +81,24 @@ class Library {
 
 }
 
+document.querySelector('#bookForm').addEventListener('submit',(e) => {
+  
+  e.preventDefault();
+
+  const title = document.querySelector('#title').value;
+  const author = document.querySelector('#author').value;
+  const genre = document.querySelector('#genre').value;
+  var read;
+  if(document.querySelector('input[name="readStatus"]:checked').value === 'finished') {
+    read = true;
+  } else {
+    read = false;
+  }
+  const book = new Book(title,author,genre,read);
+
+  Library.render(book);
+});
+
 
 document.querySelector('#bookList').addEventListener('click', (e) => {
   // Remove a Book 
