@@ -44,10 +44,10 @@ class Library {
     genre.innerHTML = `${book.genre}`;
   
     if(book.read) {
-      readInput.classList.add('btn','btn-primary');
+      readInput.classList.add('btn','btn-primary', 'w-100');
       readInput.value = 'Read';
     } else {
-      readInput.classList.add('btn','btn-secondary');
+      readInput.classList.add('btn','btn-secondary', 'w-100');
       readInput.value = 'Unread';
     }
 
@@ -69,7 +69,7 @@ class Library {
     row.appendChild(deleteElem);
     deleteElem.appendChild(deleteBtn);
     deleteBtn.setAttribute('type','button');
-    deleteBtn.classList.add('btn', 'btn-danger');
+    deleteBtn.classList.add('btn', 'btn-danger', 'w-100');
     deleteBtn.textContent = 'X';
   }
 
@@ -84,11 +84,23 @@ class Library {
     setTimeout(()=>document.querySelector('.alert').remove(), 5000);
   }
 
-
   static deleteBook(e) {
     if(e.classList.contains('btn-danger')){
       e.parentElement.parentElement.remove();
+      Library.deleteMessage('Book Deleted', 'success');
     }
+    
+  }
+
+  static deleteMessage(message, className){
+    const p = document.createElement('p');
+    p.className = `alert alert-${className} mt-3`;
+    p.appendChild(document.createTextNode(message));
+    const container = document.querySelector('.container');
+    const modal = document.querySelector('.modal');
+    container.insertBefore(p, modal);
+    // Clear in 3 seconds
+    setTimeout(()=>document.querySelector('.alert').remove(), 2000);
   }
 
   static clearFields(){
@@ -122,6 +134,7 @@ document.querySelector('#bookForm').addEventListener('submit',(e) => {
     Library.showAlertModal('Book Added', 'success');
     Library.clearFields();
   }
+
 });
 
 
@@ -131,5 +144,8 @@ document.querySelector('#bookList').addEventListener('click', (e) => {
   
 });
 
+document.addEventListener('click', (e) => {
+  console.log(e.target);
+});
 
 document.addEventListener('DOMContentLoaded', Library.displayBooks);
