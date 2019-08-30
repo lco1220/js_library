@@ -73,11 +73,29 @@ class Library {
     deleteBtn.textContent = 'X';
   }
 
+  static showAlertModal(message, className){
+    const p = document.createElement('p');
+    p.className = `alert alert-${className}`;
+    p.appendChild(document.createTextNode(message));
+    const formGroup = document.querySelector('.form-group');
+    const form = document.querySelector('#bookForm');
+    form.insertBefore(p, formGroup);
+    // Clear in 3 seconds
+    setTimeout(()=>document.querySelector('.alert').remove(), 5000);
+  }
+
+
   static deleteBook(e) {
     if(e.classList.contains('btn-danger')){
       e.parentElement.parentElement.remove();
     }
   }
+
+  static clearFields(){
+    document.querySelector('#title').value = '';
+    document.querySelector('#author').value = '';
+    document.querySelector('#genre').value = '';
+  } 
 
 }
 
@@ -94,9 +112,16 @@ document.querySelector('#bookForm').addEventListener('submit',(e) => {
   } else {
     read = false;
   }
-  const book = new Book(title,author,genre,read);
 
-  Library.render(book);
+  if(title === '' || author === '' || genre === ''){
+    Library.showAlert('Please fill in all fields', 'danger');
+  } else {
+    const book = new Book(title,author,genre,read);
+
+    Library.render(book);
+    Library.showAlertModal('Book Added', 'success');
+    Library.clearFields();
+  }
 });
 
 
